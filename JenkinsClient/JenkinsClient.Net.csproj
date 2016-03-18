@@ -107,9 +107,11 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildInformation.cs" />
     <Compile Include="BuildProject.cs" />
     <Compile Include="JenkinsDataLoader.cs" />
     <Compile Include="JenkinsRESTClient.cs" />
+    <Compile Include="JenkinsServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\JenkinsClient.rd.xml" />
   </ItemGroup>

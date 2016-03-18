@@ -27,10 +27,18 @@ namespace Dashboard
             this.InitializeComponent();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private async void button_Click(object sender, RoutedEventArgs e)
         {
-            var loader = new JenkinsClient.JenkinsDataLoader();
-            loader.GetProjectData("");
+            var serverInfo = new JenkinsClient.JenkinsServerInfo() { JenkinsServer = "" };
+
+            var loader = new JenkinsClient.JenkinsDataLoader(serverInfo);
+            var proj = await loader.GetProjectData("");
+
+            if (proj.builds.Count > 0)
+            {
+                var bi = await loader.GetBuildInformation(proj.builds[0]); }
+
+
         }
     }
 }

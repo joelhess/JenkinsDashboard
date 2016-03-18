@@ -76,7 +76,10 @@ namespace JenkinsClient
 
     public class Action
     {
+        
     }
+
+    
 
     public class Property
     {
