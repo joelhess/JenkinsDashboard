@@ -20,22 +20,41 @@ namespace JenkinsClient
 
         string JenkinsServerUrl = "https://ci.jenkins-ci.org/job/jenkins_pom/api/json";
 
-        public async Task<BuildProject> GetProjectData(string url)
+
+        public async Task<ServerInfo> GetProjects()
+        {
+            using (HttpClient client = SetupHttpClientRequest())
+            {
+                var resp = await client.GetAsync(Utilities.AddApiToUrl(_serverInfo.JenkinsServer));
+                if (resp.IsSuccessStatusCode)
+                {
+                    var projects = await resp.Content.ReadAsStringAsync();
+
+                    var projectResponse = JsonConvert.DeserializeObject<ServerInfo>(projects);
+                    return projectResponse;
+                }
+            }
+            return null;
+        }
+
+        public async Task<BuildJob> GetProjectData(string url)
         {
 
             var requestUri = new Uri(JenkinsServerUrl);
-            using (HttpClient client = new System.Net.Http.HttpClient())
+            using (HttpClient client = SetupHttpClientRequest())
             {
                 var resp = await client.GetAsync(requestUri);
 
+
                 string response = await resp.Content.ReadAsStringAsync();
-                var projectResponse = JsonConvert.DeserializeObject<BuildProject>(response);
+                var projectResponse = JsonConvert.DeserializeObject<BuildJob>(response);
 
                 return projectResponse;
                 //var name = jObject["displayName"];
             }
-
         }
+
+
 
         public async Task<BuildInformation> GetBuildInformation(Build build)
         {
@@ -46,40 +65,40 @@ namespace JenkinsClient
         {
             var requestUri = new Uri(Url);
 
-            //HttpClientHandler handler = new HttpClientHandler()
-            //{
-            //    PreAuthenticate = true
-            //};
-
-         
-
-            //handler.Credentials = new NetworkCredential("joel.hess", "48dea3108351cefe89f30bb027033731", "realm");
-
-            using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient())
+            using (HttpClient client = SetupHttpClientRequest())
             {
 
                 var resp = await client.GetAsync(requestUri);
                 if (resp.IsSuccessStatusCode)
                 {
                     string response = await resp.Content.ReadAsStringAsync();
-                    var jsonResponse = JsonConvert.DeserializeObject(response);
                     var buildInfo = JsonConvert.DeserializeObject<BuildInformation>(response);
                     return buildInfo;
                 }
-                
             }
-
             return null;
         }
 
-        void AddUserInformationToRequest(HttpClient client)
+        private HttpClient SetupHttpClientRequest()
         {
+
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                PreAuthenticate = true
+            };
+            var client = new HttpClient(handler);
+
             if (client != null)
             {
-                var byteArray = Encoding.ASCII.GetBytes(_serverInfo.UserName + ":" + _serverInfo.ApiToken);//"joel.hess:1e76a66f0565b3dbf3f741922b0f9435");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                if (_serverInfo.RequiresAuthentication)
+                {
+                    var byteArray = Encoding.ASCII.GetBytes(_serverInfo.UserName + ":" + _serverInfo.ApiToken);//"joel.hess:1e76a66f0565b3dbf3f741922b0f9435");
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                }
             }
 
+            return client;
+            
         }
 
     }

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JenkinsClient;
 
-namespace Dashboard.Desktop
+namespace Dashboard.Desktop.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,13 +26,20 @@ namespace Dashboard.Desktop
             InitializeComponent();
         }
 
-        private async void button_Click(object sender, RoutedEventArgs e)
+
+        private void btnConfigure_Click(object sender, RoutedEventArgs e)
         {
             var jenkinsServer = new JenkinsServerInfo();
-            var jenkinsDl =  new JenkinsDataLoader(jenkinsServer);
+            jenkinsServer.JenkinsServer = "https://ci.jenkins-ci.org/";
+            Model.ProjectConfigurationModel projectconfig = new Model.ProjectConfigurationModel();
+            
+            Model.ServerConfigurationViewModel model = new Model.ServerConfigurationViewModel() { FriendlyName="Jenkins CI", ServerInfo = jenkinsServer };
+            projectconfig.Servers.Add(model);
 
-            var projectData = await jenkinsDl.GetBuildInformation("http://jenkins.spokvdev.com/job/Spok.Mobile.Build-4.4/api/json");
-
+            Views.ProjectsConfiguration projectConfigView = new ProjectsConfiguration(projectconfig);
+            projectConfigView.Owner = this;
+            var result = projectConfigView.ShowDialog();
         }
+
     }
 }

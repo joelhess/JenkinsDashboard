@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JenkinsClient
 {
-    //internal class BuildProject 
+    //internal class BuildJob 
     //{
     //    public string displayName { get; set; }
     //    public string description { get; set; }
@@ -25,7 +25,7 @@ namespace JenkinsClient
     //    }
     //}
 
-    public class BuildProject
+    public class BuildJob
     {
         public List<Action> actions { get; set; }
         public string description { get; set; }
@@ -56,19 +56,8 @@ namespace JenkinsClient
         public List<object> upstreamProjects { get; set; }
     }
 
-    public class Build
-    {
-        public int Number { get; set; }
-        public string url { get; set; }
-    }
 
-    public class HealthReport
-    {
-        public string description { get; set; }
-        public string iconClassName { get; set; }
-        public string iconUrl { get; set; }
-        public int score { get; set; }
-    }
+
 
     public class Scm
     {
@@ -79,7 +68,6 @@ namespace JenkinsClient
         
     }
 
-    
 
     public class Property
     {

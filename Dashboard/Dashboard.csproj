@@ -8,7 +8,7 @@
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dashboard</RootNamespace>
-    <AssemblyName>Dashboard</AssemblyName>
+    <AssemblyName>Jenins.Dashboard.uw</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -135,9 +135,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JenkinsClient\JenkinsClient.Net.csproj">
-      <Project>{f23009a9-1782-41f0-8d6d-2b5bb1a17195}</Project>
-      <Name>JenkinsClient.Net</Name>
+    <ProjectReference Include="..\JenkinsClient.pcl\JenkinsClient.pcl.csproj">
+      <Project>{9d735a55-be6b-431c-b352-603186c49904}</Project>
+      <Name>JenkinsClient.pcl</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
