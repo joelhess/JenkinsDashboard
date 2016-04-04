@@ -25,15 +25,15 @@ namespace Dashboard.Desktop.Views
         {
             InitializeComponent();
 
-            projectConfig = new Model.ProjectConfigurationModel();
-            this.listView.DataContext = projectConfig.Servers;
+            //projectConfig = new Model.ProjectConfigurationModel();
+            //this.listView.DataContext = projectConfig.Servers;
         }
 
         internal ProjectsConfiguration(Model.ProjectConfigurationModel projectModel )
             :this()
         {
             projectConfig = projectModel;
-            this.listView.DataContext = projectConfig.Servers;
+            //this.listView.DataContext = projectConfig.Servers;
 
             listView.SelectedIndex = 0;
         }
@@ -50,30 +50,30 @@ namespace Dashboard.Desktop.Views
 
             if ( result.HasValue && result.Value)
             {
-                projectConfig.Servers.Add(serverConfig._serverConfigModel);
+                //projectConfig.Servers.Add(serverConfig._serverConfigModel);
             }
         }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var currentConfig = listView.SelectedItem as Model.ServerConfigurationViewModel;
-            LoadJobs(currentConfig);
+            //var currentConfig = listView.SelectedItem as Model.MainWindowViewModel;
+            //LoadJobs(currentConfig);
         }
 
-        private async void LoadJobs(Model.ServerConfigurationViewModel config)
+        private async void LoadJobs(ViewModel.MainWindowViewModel config)
         {
-            JenkinsClient.JenkinsDataLoader jcDL = new JenkinsClient.JenkinsDataLoader(config.ServerInfo);
-            var BuildData = await jcDL.GetProjects();
-            listViewJobs.DataContext = BuildData.jobs;
+            //JenkinsClient.JenkinsDataLoader jcDL = new JenkinsClient.JenkinsDataLoader(config.ServerInfo);
+            //var BuildData = await jcDL.GetProjects();
+            //listViewJobs.DataContext = BuildData.jobs;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            projectConfig.BuildJobs.Clear();
-            foreach (var item  in listViewJobs.SelectedItems)
-            {
-                projectConfig.BuildJobs.Add(item as JenkinsClient.BuildJob);
-            }
+            //projectConfig.BuildJobs.Clear();
+            //foreach (var item  in listViewJobs.SelectedItems)
+            //{
+            //    projectConfig.BuildJobs.Add(item as JenkinsClient.BuildJob);
+            //}
 
             this.DialogResult = true;
         }

@@ -20,5 +20,16 @@ namespace JenkinsClient
             else
                 return string.Concat(url, apiString);
         }
+
+        //internal static Uri AddApiToUri(Uri url)
+        //{
+        //    if (url.EndsWith("/"))
+        //        url.TrimEnd('/');
+
+        //    if (url.EndsWith(apiString))
+        //        return url;
+        //    else
+        //        return string.Concat(url, apiString);
+        //}
     }
 }

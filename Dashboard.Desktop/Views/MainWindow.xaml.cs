@@ -24,22 +24,7 @@ namespace Dashboard.Desktop.Views
         public MainWindow()
         {
             InitializeComponent();
+
         }
-
-
-        private void btnConfigure_Click(object sender, RoutedEventArgs e)
-        {
-            var jenkinsServer = new JenkinsServerInfo();
-            jenkinsServer.JenkinsServer = "https://ci.jenkins-ci.org/";
-            Model.ProjectConfigurationModel projectconfig = new Model.ProjectConfigurationModel();
-            
-            Model.ServerConfigurationViewModel model = new Model.ServerConfigurationViewModel() { FriendlyName="Jenkins CI", ServerInfo = jenkinsServer };
-            projectconfig.Servers.Add(model);
-
-            Views.ProjectsConfiguration projectConfigView = new ProjectsConfiguration(projectconfig);
-            projectConfigView.Owner = this;
-            var result = projectConfigView.ShowDialog();
-        }
-
     }
 }

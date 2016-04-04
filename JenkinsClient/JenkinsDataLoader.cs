@@ -18,7 +18,7 @@ namespace JenkinsClient
             _serverInfo = serverInfo;
         }
 
-        string JenkinsServerUrl = "https://ci.jenkins-ci.org/job/jenkins_pom/api/json";
+        //string JenkinsServerUrl = "https://ci.jenkins-ci.org/job/jenkins_pom/api/json";
 
 
         public async Task<ServerInfo> GetProjects()
@@ -39,8 +39,14 @@ namespace JenkinsClient
 
         public async Task<BuildJob> GetProjectData(string url)
         {
+            url = Utilities.AddApiToUrl(url);
+            var requestUri = new Uri(url);
+            return await GetProjectData(requestUri);
+        }
 
-            var requestUri = new Uri(JenkinsServerUrl);
+        public async Task<BuildJob> GetProjectData(Uri requestUri)
+        {
+
             using (HttpClient client = SetupHttpClientRequest())
             {
                 var resp = await client.GetAsync(requestUri);
@@ -54,8 +60,6 @@ namespace JenkinsClient
             }
         }
 
-
-
         public async Task<BuildInformation> GetBuildInformation(Build build)
         {
             return await GetBuildInformation(build.url);
@@ -63,6 +67,8 @@ namespace JenkinsClient
 
         public async Task<BuildInformation> GetBuildInformation(string Url)
         {
+            Url = Utilities.AddApiToUrl(Url);
+
             var requestUri = new Uri(Url);
 
             using (HttpClient client = SetupHttpClientRequest())
