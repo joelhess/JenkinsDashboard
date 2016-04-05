@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Dashboard.Desktop.ViewModel
 {
@@ -72,6 +73,21 @@ namespace Dashboard.Desktop.ViewModel
                 //    }
                 //}
             };
+
+            StartDispatchTimer();
+        }
+
+        private void StartDispatchTimer()
+        {
+            DispatcherTimer tmr = new DispatcherTimer(DispatcherPriority.Background);
+            tmr.Interval = new TimeSpan(0, 0, 30);
+            tmr.Tick += Tmr_Tick;
+            tmr.Start();
+        }
+
+        private void Tmr_Tick(object sender, EventArgs e)
+        {
+            RefreshData(null);
         }
 
         public ICommand CmdShowConfigure

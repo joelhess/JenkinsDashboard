@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Dashboard.Desktop"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:prismInter="clr-namespace:Prism.Interactivity.InteractionRequest;assembly=Prism"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="Jenkins Dashboard" Height="350" Width="525">
@@ -58,6 +59,8 @@
                 </ListView.Style>
             </ListView>
         </DockPanel>
-
+        <tb:TaskbarIcon
+      IconSource="/Assets/jenkinsheadshot.ico"
+      ToolTipText="Jenkins Tray" />
     </Grid>
 </Window>
