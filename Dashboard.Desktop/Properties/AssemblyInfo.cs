@@ -7,10 +7,10 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Dashboard.Desktop")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Jenkins.Dashboard")]
+[assembly: AssemblyDescription("A desktop status Client For Jenkins")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Corp")]
+[assembly: AssemblyCompany("Hess-Software")]
 [assembly: AssemblyProduct("Dashboard.Desktop")]
 [assembly: AssemblyCopyright("Copyright © Corp 2016")]
 [assembly: AssemblyTrademark("")]

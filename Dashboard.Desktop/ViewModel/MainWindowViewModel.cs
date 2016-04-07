@@ -15,6 +15,8 @@ namespace Dashboard.Desktop.ViewModel
 {
     internal class MainWindowViewModel : BindableBase
     {
+        public string PersistanceFileName { get { return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jenkins.DesktopClient\\JenkinsData.xml"); } }
+
         public MainWindowViewModel()
         {
 
@@ -33,15 +35,18 @@ namespace Dashboard.Desktop.ViewModel
                 {
                     try
                     {
-                        await Task.Run(async() =>
+                        await Task.Run(async () =>
                         {
                             JenkinsClient.JenkinsDataLoader jdl = new JenkinsClient.JenkinsDataLoader(server.ServerInfo);
                             project.BuildJob = await jdl.GetProjectData(project.ProjectUri.ToString());
+                            project.FriendlyName = project.BuildJob.displayName;
 
                             var lastBuildInfo = await jdl.GetBuildInformation(project.BuildJob.lastBuild.url);
 
+                            project.LastProjectStatus = lastBuildInfo.building ? "Building" : "Idle";
+
                             project.LastChecked = DateTime.Now;
-                            project.LastStatus = (JenkinsClient.BuildStatus)Enum.Parse(typeof(JenkinsClient.BuildStatus), lastBuildInfo.result, true);
+                            project.LastBuildStatus = (JenkinsClient.BuildStatus)Enum.Parse(typeof(JenkinsClient.BuildStatus), lastBuildInfo.result, true);
                         }
                         );
                     }
@@ -52,17 +57,36 @@ namespace Dashboard.Desktop.ViewModel
                     }
                 }
             }
+
+            MainWindowModel.Save(PersistanceFileName);
         }
 
         public MainWindowViewModel(string path)
         {
             MainWindowModel = new Model.MainWindowModel();
-            MainWindowModel.Servers = new ObservableCollection<Model.ServerModel>()
+            if (System.IO.File.Exists(PersistanceFileName))
             {
-                new Model.ServerModel() {FriendlyName= "Franklin",
-                    ServerInfo = new JenkinsClient.JenkinsServerInfo() {JenkinsServer="https://ci.jenkins-ci.org/" },
-                    Projects = new ObservableCollection<Model.ProjectModel>()
-                    {new Model.ProjectModel() {ProjectUri = new Uri("https://ci.jenkins-ci.org/job/jenkins_main_trunk/") } } }
+                MainWindowModel.Load(PersistanceFileName);
+            }
+            else
+            {
+
+                MainWindowModel.Servers = new List<Model.ServerModel>()
+            {
+                new Model.ServerModel() {FriendlyName= "Jenkins.SpokVDev",
+                    ServerInfo = new JenkinsClient.JenkinsServerInfo() {JenkinsServer="http://jenkins.spokvdev.com/", UserName = "joel.hess", ApiToken = "1e76a66f0565b3dbf3f741922b0f9435"},
+                    Projects = new List<Model.ProjectModel>()
+                    {
+                        new Model.ProjectModel() {ProjectUri = "http://jenkins.spokvdev.com/job/Spok.Mobile.Build-4.4/" },
+                        new Model.ProjectModel() {ProjectUri = "http://jenkins.spokvdev.com/job/Spok.Mobile.Installer-4.4/" },
+                        new Model.ProjectModel() {ProjectUri = "http://jenkins.spokvdev.com/job/Spok.Mobile.Tests-4.4/" }
+                    }
+                }
+
+                //new Model.ServerModel() {FriendlyName= "Franklin",
+                //    ServerInfo = new JenkinsClient.JenkinsServerInfo() {JenkinsServer="https://ci.jenkins-ci.org/" },
+                //    Projects = new ObservableCollection<Model.ProjectModel>()
+                //    {new Model.ProjectModel() {ProjectUri = new Uri("https://ci.jenkins-ci.org/job/jenkins_main_trunk/") } } 
                 //new Model.ServerModel() {FriendlyName = "Alfred",
                 //    Projects = new ObservableCollection<Model.ProjectModel>()
                 //    {new Model.ProjectModel()
@@ -73,7 +97,7 @@ namespace Dashboard.Desktop.ViewModel
                 //    }
                 //}
             };
-
+            }
             StartDispatchTimer();
         }
 

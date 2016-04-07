@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Dashboard.Desktop.Model
 {
-    public class ServerModel
+    public class ServerModel :Prism.Mvvm.BindableBase
     {
         public string FriendlyName { get; set; }
         public JenkinsClient.JenkinsServerInfo ServerInfo { get; set; }
         public int RefreshInterval { get; set; }
 
-        public ObservableCollection<ProjectModel> Projects { get; set; }
+        public List<ProjectModel> Projects { get; set; }
 
         public override string ToString()
         {

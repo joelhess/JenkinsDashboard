@@ -6,25 +6,6 @@ using System.Threading.Tasks;
 
 namespace JenkinsClient
 {
-    //internal class BuildJob 
-    //{
-    //    public string displayName { get; set; }
-    //    public string description { get; set; }
-    //    public Uri url { get; set; }
-    //    public List<Build> BuildList { get; set; }
-
-    //    public string LastBuildStatus
-    //    {
-    //        get
-    //        {
-    //            if (BuildList != null && BuildList.Count > 0)
-    //                return BuildList[0].status;
-    //            else
-    //                return "UNKNOWN";
-    //        }
-    //    }
-    //}
-
     public class BuildJob
     {
         public List<Action> actions { get; set; }
@@ -51,7 +32,6 @@ namespace JenkinsClient
         public List<Property> property { get; set; }
         public object queueItem { get; set; }
         public bool concurrentBuild { get; set; }
-        public List<object> downstreamProjects { get; set; }
         public Scm scm { get; set; }
         public List<object> upstreamProjects { get; set; }
     }

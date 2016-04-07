@@ -9,7 +9,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="Jenkins Dashboard" Height="350" Width="525">
+        Title="Jenkins Dashboard" Height="350" Width="525" Icon="/Jenkins.Dashboard.Desktop;component/Assets/jenkinsheadshot.ico" SizeToContent="WidthAndHeight">
     <Grid DataContext="{Binding MainWindowModel}">
 
         <DockPanel >
@@ -31,9 +31,10 @@
                                 </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.View>
-                                    <GridView >
-                                        <GridViewColumn Width="200" Header="Name" DisplayMemberBinding="{Binding BuildJob.displayName, diag:PresentationTraceSources.TraceLevel=High}" />
-                                        <GridViewColumn Width="100" Header="Status" DisplayMemberBinding="{Binding LastStatus}" />
+                                    <GridView>
+                                        <GridViewColumn  Width="200" Header="Name" DisplayMemberBinding="{Binding FriendlyName, diag:PresentationTraceSources.TraceLevel=High}" />
+                                        <GridViewColumn Width="100" Header="Project Status" DisplayMemberBinding="{Binding LastProjectStatus}" />
+                                        <GridViewColumn Width="100" Header="Build Status" DisplayMemberBinding="{Binding LastBuildStatus}" />
                                         <GridViewColumn Width="150" Header="Last Checked" DisplayMemberBinding="{Binding LastChecked}" />
                                     </GridView>
                                 </ListView.View>
