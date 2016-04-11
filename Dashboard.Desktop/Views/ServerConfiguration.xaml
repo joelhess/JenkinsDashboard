@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dashboard.Desktop.Views"
         mc:Ignorable="d"
-        Title="Server Configuration" ResizeMode="NoResize" ShowInTaskbar="False" Icon="/Dashboard.Desktop;component/Assets/Server.png" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Loaded="windowServerConfig_Loaded" Height="248.274" Width="391.667">
+        Title="Server Configuration" ResizeMode="NoResize" ShowInTaskbar="False" Icon="/Jenkins.Dashboard.Desktop;component/Assets/Server.png" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Loaded="windowServerConfig_Loaded" Height="248.274" Width="391.667">
     <Grid >
         <TextBlock HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Friendly Name:" VerticalAlignment="Top" Width="100" Margin="9,9,0,0"/>
         <TextBox x:Name="txtFriendlyName" Text="{Binding FriendlyName}" HorizontalAlignment="Left" Margin="114,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="261"/>

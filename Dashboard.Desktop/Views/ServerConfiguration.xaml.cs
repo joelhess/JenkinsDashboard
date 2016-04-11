@@ -19,19 +19,19 @@ namespace Dashboard.Desktop.Views
     /// </summary>
     public partial class ServerConfiguration : Window
     {
-        internal ViewModel.MainWindowViewModel _serverConfigModel;
+        internal ViewModels.MainWindowViewModel _serverConfigModel;
         internal ServerConfiguration()
         {
-            _serverConfigModel = new ViewModel.MainWindowViewModel();
+            _serverConfigModel = new ViewModels.MainWindowViewModel();
             InitializeComponent();
 
             DataContext = _serverConfigModel;
         }
-        internal ServerConfiguration(ViewModel.MainWindowViewModel model) :
+        internal ServerConfiguration(ViewModels.MainWindowViewModel model) :
             this()
         {
             if (model == null)
-                _serverConfigModel = new ViewModel.MainWindowViewModel();
+                _serverConfigModel = new ViewModels.MainWindowViewModel();
             else
                 _serverConfigModel = model;
 

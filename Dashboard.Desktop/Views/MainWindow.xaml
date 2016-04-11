@@ -5,30 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dashboard.Desktop"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-        xmlns:prismInter="clr-namespace:Prism.Interactivity.InteractionRequest;assembly=Prism"
+        xmlns:prism="http://prismlibrary.com/" 
+        prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:views="clr-namespace:Dashboard.Desktop.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="Jenkins Dashboard" Height="350" Width="525" Icon="/Jenkins.Dashboard.Desktop;component/Assets/jenkinsheadshot.ico" SizeToContent="WidthAndHeight">
-    <Grid DataContext="{Binding MainWindowModel}">
+        Title="Jenkins Dashboard" Height="350" Width="525" Icon="/Jenkins.Dashboard.Desktop;component/Assets/jenkinsheadshot.ico" SizeToContent="WidthAndHeight" MinWidth="300" MinHeight="200" WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ProjectConfigurationRequest, Mode=OneWay}">
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <views:ProjectsConfiguration/>
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
+            <!-- This PopupWindowAction does not have a custom view defined, therefore it will try to use a DefaultNotificationWindow -->
+            <!-- which is a window used by default by Prism to shown INotification implementations -->
+            <!-- That window will be show as a modal dialog and centered over this window -->
+       </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
 
+    <Grid>
+        <!--DataContext="{Binding MainWindowModel}"-->
         <DockPanel >
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button x:Name="btnConfigure" Content="Configure" Command="{Binding ElementName=WindowsMain, Path=DataContext.CmdShowConfigure, diag:PresentationTraceSources.TraceLevel=High}"   VerticalAlignment="Top" Height="22"/>
+                    <Button x:Name="btnConfigure" Content="Configure" Command="{Binding ElementName=WindowsMain, Path=DataContext.RaiseProjectConfigurationViewCommand, diag:PresentationTraceSources.TraceLevel=High}"   VerticalAlignment="Top" Height="22"/>
                     <Button x:Name="btnRefresh" Content="Refresh" Command="{Binding ElementName=WindowsMain, Path=DataContext.CmdRefreshData, diag:PresentationTraceSources.TraceLevel=High}"   VerticalAlignment="Top" Height="22"/>
                 </ToolBar>
             </ToolBarTray>
-            <ListView x:Name="listView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,10,10" ItemsSource="{Binding Servers, diag:PresentationTraceSources.TraceLevel=High}">
+            <ListView x:Name="listView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,10,10" ItemsSource="{Binding MainWindowModel.Servers, diag:PresentationTraceSources.TraceLevel=High}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <TextBlock FontWeight="Bold" Margin="10,10,10,10" Text="{Binding FriendlyName, diag:PresentationTraceSources.TraceLevel=High}"/>
                             <ListView ItemsSource="{Binding Projects, diag:PresentationTraceSources.TraceLevel=High}" HorizontalAlignment="Stretch">
                                 <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                </Style>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.View>
                                     <GridView>
@@ -62,6 +77,7 @@
         </DockPanel>
         <tb:TaskbarIcon
       IconSource="/Assets/jenkinsheadshot.ico"
-      ToolTipText="Jenkins Tray" />
+      ToolTipText="Jenkins Tray"
+            DoubleClickCommand="{Binding ElementName=WindowsMain, Path=DataContext.CmdRefreshData}"/>
     </Grid>
 </Window>

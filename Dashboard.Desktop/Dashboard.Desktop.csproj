@@ -117,11 +117,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Model\ServerModel.cs" />
-    <Compile Include="ViewModel\ProjectConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\ProjectsConfigurationViewModel.cs" />
     <Compile Include="Model\ProjectModel.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\ProjectsConfiguration.xaml.cs">
       <DependentUpon>ProjectsConfiguration.xaml</DependentUpon>
     </Compile>
