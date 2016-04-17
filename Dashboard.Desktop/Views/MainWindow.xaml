@@ -11,7 +11,11 @@
         xmlns:views="clr-namespace:Dashboard.Desktop.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="Jenkins Dashboard" Height="350" Width="525" Icon="/Jenkins.Dashboard.Desktop;component/Assets/jenkinsheadshot.ico" SizeToContent="WidthAndHeight" MinWidth="300" MinHeight="200" WindowStartupLocation="CenterScreen">
+        Title="Jenkins Dashboard" 
+        Height="350" Width="525" 
+        Icon="/Jenkins.Dashboard.Desktop;component/Assets/jenkinsheadshot.ico" 
+        SizeToContent="WidthAndHeight" MinWidth="300" MinHeight="200" WindowStartupLocation="CenterScreen"
+        Visibility="{Binding WindowVisibility, Mode=TwoWay}">
     <i:Interaction.Triggers>
         <prism:InteractionRequestTrigger SourceObject="{Binding ProjectConfigurationRequest, Mode=OneWay}">
             <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
@@ -75,9 +79,12 @@
                 </ListView.Style>
             </ListView>
         </DockPanel>
-        <tb:TaskbarIcon
+        <!--<tb:TaskbarIcon
       IconSource="/Assets/jenkinsheadshot.ico"
       ToolTipText="Jenkins Tray"
-            DoubleClickCommand="{Binding ElementName=WindowsMain, Path=DataContext.CmdRefreshData}"/>
+            x:Name="trayIcon"
+            DataContext="MainWindowViewModel"
+            
+            />-->
     </Grid>
 </Window>

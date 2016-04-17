@@ -13,15 +13,31 @@ using System.Windows.Threading;
 
 namespace Dashboard.Desktop.ViewModels
 {
-    internal class MainWindowViewModel : BindableBase
+    internal class MainWindowViewModel : BindableBase, INotification
     {
-        public string PersistanceFileName { get { return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jenkins.DesktopClient\\JenkinsData.xml"); } }
+        public string PersistanceFileName { get { return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.PersistanceFileName); } }
         public InteractionRequest<INotification> ProjectConfigurationRequest { get; private set; }
         public ICommand RaiseProjectConfigurationViewCommand { get; private set; }
+
+        private System.Windows.Visibility _WindowVisibility;
+        public System.Windows.Visibility WindowVisibility { get { return _WindowVisibility; } set { SetProperty(ref _WindowVisibility, value); } }
+
+
+        private readonly INotifyService notifyService = new NotifyService();
 
         public ICommand CmdRefreshData
         {
             get { return new DelegateCommand<object>(RefreshData); }
+        }
+
+        public ICommand CmdShowWindow
+        {
+            get { return new DelegateCommand<object>(ShowWindowCommand); }
+        }
+
+        private void ShowWindowCommand(object obj)
+        {
+            WindowVisibility = System.Windows.Visibility.Visible;
         }
 
         private async void RefreshData(object obj)
@@ -43,7 +59,12 @@ namespace Dashboard.Desktop.ViewModels
                             project.LastProjectStatus = lastBuildInfo.building ? "Building" : "Idle";
 
                             project.LastChecked = DateTime.Now;
-                            project.LastBuildStatus = (JenkinsClient.BuildStatus)Enum.Parse(typeof(JenkinsClient.BuildStatus), lastBuildInfo.result, true);
+                            var currentBuildStatus = (JenkinsClient.BuildStatus)Enum.Parse(typeof(JenkinsClient.BuildStatus), lastBuildInfo.result, true);
+                            if (project.LastBuildStatus != currentBuildStatus)
+                                notifyService.Notify(string.Format("{0} status: {1}", project.FriendlyName, currentBuildStatus));
+                            
+                            project.LastBuildStatus = currentBuildStatus;
+                            
                         }
                         );
                     }
@@ -98,13 +119,13 @@ namespace Dashboard.Desktop.ViewModels
                 }
             };
             }
-            StartDispatchTimer();
+            //StartDispatchTimer();
         }
 
         private void StartDispatchTimer()
         {
             DispatcherTimer tmr = new DispatcherTimer(DispatcherPriority.Background);
-            tmr.Interval = new TimeSpan(0, 0, 30);
+            tmr.Interval = Properties.Settings.Default.RefreshInterval;
             tmr.Tick += Tmr_Tick;
             tmr.Start();
         }
@@ -114,32 +135,30 @@ namespace Dashboard.Desktop.ViewModels
             RefreshData(null);
         }
 
-        //public ICommand CmdShowConfigure
-        //{
-        //    get { return new DelegateCommand<object>(ShowConfigureWindow); }
-        //}
-
-        //private void ShowConfigureWindow(object context)
-        //{
-        //    //Views.ProjectsConfiguration projectConfigView = new Views.ProjectsConfiguration(null);
-
-        //    //var result = projectConfigView.ShowDialog();
-
-        //    Debug.WriteLine("Recieved  Command");
-        //}
-
-
         private void RaiseProjectConfigurationView()
         {
             // In this case we are passing a simple notification as a parameter.
             // The custom popup view we are using for this interaction request does not have a DataContext of its own
             // so it will inherit the DataContext of the window, which will be this same notification.
             //this.InteractionResultMessage = "";
-            this.ProjectConfigurationRequest.Raise(
-                new Notification { Content = "Message for the CustomPopupView", Title = "Project Configuration",  });
+            this.ProjectConfigurationRequest.Raise(this);
+                //new Notification { Content = "Message for the CustomPopupView", Title = "Project Configuration",  });
         }
 
         public Model.MainWindowModel MainWindowModel { get; set; }
 
+        public string Title
+        {
+            get
+            {
+                return "Jenkins Configuration";
+            }
+            set { }
+        }
+
+        public object Content
+        {
+            get;set;
+        }
     }
 }

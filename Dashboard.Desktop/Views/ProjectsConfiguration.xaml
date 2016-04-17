@@ -7,7 +7,6 @@
         xmlns:local="clr-namespace:Dashboard.Desktop.Views"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:prism="http://prismlibrary.com/" 
-       
         mc:Ignorable="d" MinHeight="500" MinWidth="600">
     <!--Title="Configure Projects" ResizeMode="CanResizeWithGrip"  ShowInTaskbar="False"   prism:ViewModelLocator.AutoWireViewModel="True"-->
     <Grid>

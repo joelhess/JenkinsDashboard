@@ -28,13 +28,15 @@ namespace Dashboard.Desktop.Views
         public ProjectsConfiguration()
         {
             InitializeComponent();
-            System.Diagnostics.Debug.Write("Test");
+
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.Write(this.DataContext);
+
         }
+
+
         ////internal Model.ProjectConfigurationModel projectConfig;
 
         //public ProjectsConfiguration()

@@ -15,6 +15,8 @@ namespace Dashboard.Desktop.Model
         private List<ServerModel> _servers;
         public List<ServerModel> Servers { get { return _servers; } set { SetProperty(ref _servers, value); } }
 
+      
+
         internal void Save(string fileName)
         {
             XmlSerializer serial = new XmlSerializer(typeof(MainWindowModel));

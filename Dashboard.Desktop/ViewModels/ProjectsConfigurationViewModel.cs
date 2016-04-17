@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Dashboard.Desktop.Model;
+using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using System;
@@ -16,6 +17,10 @@ namespace Dashboard.Desktop.ViewModels
     {
         public ICommand SelectItemCommand { get; private set; }
 
+        private List<ServerModel> _servers;
+        public List<ServerModel> Servers { get { return _servers; } set { SetProperty(ref _servers, value); } }
+
+
         public ProjectsConfigurationViewModel()
         {
             this.SelectItemCommand = new DelegateCommand(this.AcceptSelectedItem);
@@ -25,9 +30,6 @@ namespace Dashboard.Desktop.ViewModels
         {
 
         }
-
-
-        //public MainWindowModel MainModel { get; set; }
         public Action FinishInteraction
         {
              get; set; 

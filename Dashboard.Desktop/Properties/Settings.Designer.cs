@@ -22,5 +22,29 @@ namespace Dashboard.Desktop.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Jenkins.DesktopClient\\\\JenkinsData.xml")]
+        public string PersistanceFileName {
+            get {
+                return ((string)(this["PersistanceFileName"]));
+            }
+            set {
+                this["PersistanceFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:60")]
+        public global::System.TimeSpan RefreshInterval {
+            get {
+                return ((global::System.TimeSpan)(this["RefreshInterval"]));
+            }
+            set {
+                this["RefreshInterval"] = value;
+            }
+        }
     }
 }
